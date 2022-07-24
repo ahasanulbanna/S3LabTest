@@ -43,7 +43,7 @@ namespace Problem2.Repository.Implementation
             var truncateQuery = "truncate table Reading truncate table Building truncate table DataField truncate table [Object] ";
             context.Database.ExecuteSqlRaw(truncateQuery);
             DateTime dataGeneratedFrom = DateTime.Now;
-            int totalDays = 730, totalBuildin = 100, dailyTimeStamp = 1440;
+            int totalDays = 1, totalBuildin = 100, dailyTimeStamp = 1440;
             for (int day = 1; day <= totalDays; day++)
             {
                 DataTable tbl = new DataTable();
@@ -79,7 +79,7 @@ namespace Problem2.Repository.Implementation
                         dr["BuildingId"] = b;
                         dr["ObjectId"] = b;
                         dr["DataFieldId"] = b;
-                        dr["Value"] = rnd.NextDouble()*(1-50)+1;
+                        dr["Value"] = System.Math.Round((Math.Abs(rnd.NextDouble() * (1 - 50) + 1)), 2);
                         dr["TimeStamp"] = dataGeneratedFrom.AddMinutes(j);
                         tbl.Rows.Add(dr);
                     }
@@ -117,16 +117,10 @@ namespace Problem2.Repository.Implementation
             var query = "select top " + topValue + "  * from Reading where BuildingId=" + buildingId + " and ObjectId=" + objectId + " and DataFieldId=" + datafildId + " and convert(date,TimeStamp) between '" + startDate + "' and '" + endDate + "'";
             var data = context.Reading.FromSqlRaw(query);
             List<SelectModel> models = new List<SelectModel>();
-            //StringBuilder sb = new StringBuilder("{'report':[");
             foreach (var item in data)
             {
-                models.Add(new SelectModel { Text = item.TimeStamp, Value = item.Value });
-                //sb.Append("[" + (long)(item.TimeStamp - new DateTime(1970, 1, 1)).TotalMilliseconds + "," + item.Value + "],");
+                models.Add(new SelectModel { Text = (long)(item.TimeStamp - new DateTime(1970, 1, 1)).TotalMilliseconds, Value = item.Value });
             }
-            //sb.Append("]}");
-
-            //var jsonData = JObject.Parse(sb.ToString());
-
             return models;
         }
 

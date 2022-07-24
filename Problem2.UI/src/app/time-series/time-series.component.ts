@@ -106,7 +106,7 @@ console.log(arr);
                    'Drag in the plot area to zoom in' : 'Pinch the chart to zoom in'
            },
            xAxis: {
-               type: 'string'
+               type: 'datetime'
            },
            yAxis: {
                title: {

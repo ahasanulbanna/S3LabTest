@@ -6,7 +6,6 @@ namespace Problem1
     {
         public static void Main(string[] args)
         {
-
             decimal bill = 0;
             DateTime startTime = DateTime.Now;
             DateTime endTime = startTime.AddMinutes(10);
